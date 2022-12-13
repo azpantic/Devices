@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}
+CPD-Inventory
+{% endblock title %}
+
+{% block script %}
+<script>
+	Date.prototype.toDateInputValue = (function () {
+		var local = new Date(this);
+		local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+		return local.toJSON().slice(0, 10);
+	});
+
+	window.onload = function () {
+
+
+		var bookingDatePicker = document.getElementById("bookingDate")
+		bookingDatePicker.value = new Date().toDateInputValue()
+
+		var exampleModal = document.getElementById('exampleModal')
+		exampleModal.addEventListener('show.bs.modal', function (event) {
+
+			var button = event.relatedTarget
+			var time = button.getAttribute('data-bs-whatever')
+			var bookingDatePicker = document.getElementById("bookingDate")
+
+
+			var endTimePicker = document.getElementById("endTimePicker")
+			var startTimeInput = document.getElementById("startTimePicker")
+			var datePicker = document.getElementById("datePicker")
+
+			datePicker.value = bookingDatePicker.value
+			startTimeInput.value = time
+
+			endTimePicker.min = time
+
+		})
+	}
+</script>
+
+{% endblock script %}
+
+{% block body %}
+
+<div class="container mt-3">
+	<h4 class="mb-3">Cтраница Устройства</h4>
+
+	<div class="row">
+		<div class="col-6">
+			<label class="form-label">Название Устройства</label>
+			<p type="text" class="form-control" name="Title" required="">{{ device.title }}</p>
+			<label for="bookingDate" class="mb-1">Выберите дату</label>
+			<input id="bookingDate" class="form-control" type="date" />
+		</div>
+
+		<div class="col-6 container">
+			<label for="timePickerList" class="mb-1">Выберите время</label>
+			<ul class="list-unstyled row">
+				{% for time in timeInfo[:timeInfo.__len__()] %}
+
+				{% if time["status"] == "avalible" %}
+				<li class="list-item  col-6">
+					<button href="#" class="list-group-item list-group-item-action list-group-item-info"
+						data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever={{ time.time }}>{{
+						time.time }}</button>
+				</li>
+				{% else %}
+				<li class="list-item  col-6">
+					<button class="list-group-item  list-group-item-action list-group-item-dark">{{
+						time.time }}</button>
+				</li>
+				{% endif %}
+
+				{% endfor %}
+
+
+			</ul>
+		</div>
+
+
+		{# <div class="col-3">
+
+			<label for="timePickerList" class="mb-1">Выбирите время</label>
+			<div class="list-group" id="timePickerList">
+
+				{% for time in timeInfo[:timeInfo.__len__()] %}
+
+				{% if time["status"] == "avalible" %}
+
+				<button href="#" class="list-group-item list-group-item-action list-group-item-info"
+					data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever={{ time.time }}>{{
+					time.time }}</button>
+
+				{% endif %}
+
+				{% endfor %}
+
+			</div>
+		</div> #}
+
+
+	</div>
+
+
+
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">New message</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form method="post" action={{ url_for("device", id=device.id) }}>
+						<div class="mb-3">
+							<label for="datePicker" class="col-form-label">Дата</label>
+							<input type="date" class="form-control" id="datePicker" name="bookingDate" readonly>
+						</div>
+						<div class="mb-3">
+							<label for="startTimePicker" class="col-form-label">Время начала</label>
+							<input type="time" class="form-control" id="startTimePicker" name="startTime" readonly>
+						</div>
+						<div class="cs-form mb-3">
+							<label for="endTimePicker" class="col-form-label">Время окончания</label>
+							<input id="endTimePicker" type="time" class="form-control" step="1800" name="endTime"
+								required />
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+							<button type="submit" class="btn btn-primary">Забронировать</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+{% endblock body %}
