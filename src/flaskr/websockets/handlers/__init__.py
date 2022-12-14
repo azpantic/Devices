@@ -1,1 +1,1 @@
-from . import getNewColor
+from . import sock_device
