@@ -3,5 +3,4 @@ from flaskr.app import app
 
 sock = Sock(app)
 
-
 CurrentSocketConnection = {}

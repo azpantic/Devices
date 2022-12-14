@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Добавление устройства{% endblock title %}
+{% block body %}
+    <div class="container mt-3">
+        <h4 class="mb-3">Добавление устройства</h4>
+        <form method="post">
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label class="form-label">Имя</label>
+                    <input type="text" class="form-control" name="Title" required=""/>
+                </div>
+            </div>
+            <div class="row g-3 mt-3">
+                <div class="col-sm-6">
+                    <label class="form-label">Id</label>
+                    <input type="text" class="form-control" name="uid" required=""/>
+                    <p class ="mt-1">Id устройства должно быть уникальным и совпадать с указанным в прошивкеы</p>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label for="lastName" class="form-label">Описание (не обязательно)</label>
+                    <textarea type="text" class="form-control form-control-lg" name="Description" rows ="3" style= "resize: none;" value="">
+				</textarea>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-lg mt-3" type="submit">Добавить</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}<div class="alert alert-danger mt-3" role="alert">{{ messages[0] }}</div>{% endif %}
+        {% endwith %}
+    </div>
+{% endblock body %}

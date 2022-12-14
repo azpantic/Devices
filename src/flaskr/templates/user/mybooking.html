@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container">
+    <p class="text-center">Список Брони</p>
+
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Статус</th>
+                <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for operation in operations %}
+            <tr>
+                <td>
+                    <a href={{ url_for('device', id=operation.deviceId ) }} class="link-info">{{
+                        operation.device_title }}</a>
+                </td>
+
+                {% if operation.status == "active" %}
+
+                <td>
+                    <p class="text-success">Активно</p>
+                </td>
+
+                <td>
+                    <form action={{ url_for("myBooking" , operationId=operation.id , operationType="activate" ) }}
+                        method="post">
+                        <button class="btn btn-primary btn-sm" id="ActivateBooking" type="submit">Активировать</button>
+                    </form>
+                </td>
+
+                {% endif %}
+
+                {% if operation.status == "waiting" %}
+
+                <td>
+                    <div class="text-primary">Ожидает</div>
+                </td>
+
+                <td>
+                    <form action={{ url_for("myBooking" , operationId=operation.id , operationType="cancel" ) }}
+                        method="post">
+                        <button class="btn btn-primary btn-sm" id="CancelBooking">Отмнеить</button>
+                    </form>
+                </td>
+
+                {% endif %}
+
+                {% if operation.status == "completed" %}
+
+                <td>
+                    <p class="text-dark">Завершено</p>
+                </td>
+
+                <td>
+                    <div> </div>
+                </td>
+
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock body %}

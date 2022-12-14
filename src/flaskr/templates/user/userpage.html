@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Личный кабинет{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <p>Имя: {{ current_user.get_name()}}</p>
+        <p>Должность: ________ </p>
+        <p>Email: {{ current_user.get_email() }} </p>
+
+    </div>
+    <div class="container">
+        <h2>История операций</h2>
+        {% if operations.__len__() != 0 %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Устройство</th>
+                        <th scope="col">Время</th>
+                        <th scope="col">Количество</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for operation in operations %}
+                        <tr>
+                            <td>
+                                <div class={% if operation.type == "Взятие" %} "text-warning" {% else %} "text-success" {% endif %}>
+                                    {{ operation.type }}
+                                </div>
+                            </td>
+                            <td>
+                                <a href={{ url_for("item" , id= operation.item_id) }}>{{ operation.item_name }} </a>
+                            </td>
+                            <td>{{ operation.amount }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h3 class="text-center mt-3">У вас еще не было ни одной операции</h3>
+        {% endif %}
+    </div>
+{% endblock body %}
