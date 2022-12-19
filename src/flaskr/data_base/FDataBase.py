@@ -1,5 +1,6 @@
 from .db import db
 from .models import Device, User, Operation
+from datetime import datetime
 
 
 class FDataBase():
@@ -66,6 +67,9 @@ class FDataBase():
     def getItemOperationsHistory(self, deviceId: int) -> list[Operation]:
 
         return list(db.session.query(Operation).where(Operation.deviceId == deviceId))
+
+    def getDeviceOperationOnDate(self,  deviceId: int, date: datetime):
+        return list(db.session.query(Operation).where(Operation.deviceId == deviceId).where(datetime.strptime(Operation.startTime).date() == date.date()))
 
 
 dBase: FDataBase = FDataBase()

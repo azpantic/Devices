@@ -37,6 +37,13 @@ CPD-Inventory
 
 		})
 	}
+
+	function bookingDateChange() {
+
+
+
+	}
+
 </script>
 
 {% endblock script %}
@@ -53,7 +60,7 @@ CPD-Inventory
 			<label class="form-label">Id Устройства</label>
 			<p type="text" class="form-control" name="Title" required="">{{ device.id }}</p>
 			<label for="bookingDate" class="mb-1">Выберите дату</label>
-			<input id="bookingDate" class="form-control" type="date" />
+			<input id="bookingDate" class="form-control" type="date" onchange="bookingDateChange()" />
 		</div>
 
 		<div class="col-6 container">

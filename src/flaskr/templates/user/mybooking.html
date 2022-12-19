@@ -28,10 +28,16 @@
                 </td>
 
                 <td>
-                    <form action={{ url_for("myBooking" , operationId=operation.id , operationType="activate" ) }}
-                        method="post">
-                        <button class="btn btn-primary btn-sm" id="ActivateBooking" type="submit">Активировать</button>
-                    </form>
+                    <div class="row">
+                        <form class="col-3" action={{ url_for("myBooking" , operationId=operation.id ,
+                            operationType="Turn_On" ) }} method="post">
+                            <button class="btn btn-primary btn-sm" id="ActivateBooking" type="submit">Включить</button>
+                        </form>
+                        <form class="col-3" action={{ url_for("myBooking" , operationId=operation.id ,
+                            operationType="Turn_Off" ) }} method="post">
+                            <button class="btn btn-primary btn-sm" id="ActivateBooking" type="submit">Выключить</button>
+                        </form>
+                    </div>
                 </td>
 
                 {% endif %}

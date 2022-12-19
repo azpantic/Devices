@@ -1,3 +1,3 @@
-from .devices import device , devicesList, addDevice, newOperation
-from . import index , mybooking
-from .auth import login , singup , logout
+from .devices import device, devicesList, addDevice, newOperation, getDeviceBooking
+from . import index, mybooking
+from .auth import login, singup, logout

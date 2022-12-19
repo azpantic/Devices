@@ -15,16 +15,31 @@ def myBooking():
         if args["operationType"] == "cancel":
             dBase.deleteOperationById(int(args["operationId"]))
 
-        if args["operationType"] == "activate":
+        print(CurrentSocketConnection)
+
+        if args["operationType"] == "Turn_On":
             operationId = int(args["operationId"])
             operation = dBase.getOperationById(operationId)
             device = dBase.getDeviceById(operation.deviceId)
 
             data = {
-                "operationType": "activate"
+                "operationType": "Turn_On"
             }
 
-            CurrentSocketConnection[device.uid].send(data)
+            if str(device.uid) in CurrentSocketConnection:
+                CurrentSocketConnection[str(device.uid)].send(data)
+
+        if args["operationType"] == "Tunr_Off":
+            operationId = int(args["operationId"])
+            operation = dBase.getOperationById(operationId)
+            device = dBase.getDeviceById(operation.deviceId)
+
+            data = {
+                "operationType": "Turn_Off"
+            }
+
+            if str(device.uid) in CurrentSocketConnection:
+                CurrentSocketConnection[str(device.uid)].send(data)
 
     userId = int(current_user.get_id())
 
